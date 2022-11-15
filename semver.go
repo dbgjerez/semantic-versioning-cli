@@ -60,7 +60,7 @@ func main() {
 						Name:    "minor",
 						Aliases: []string{"mi"},
 						Usage:   "Init minor number",
-						Value:   1,
+						Value:   0,
 					},
 					&cli.IntFlag{
 						Name:    "patch",
