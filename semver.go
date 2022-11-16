@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"semver/actions"
 	"semver/domain"
 
 	"github.com/urfave/cli/v2"
@@ -38,6 +39,23 @@ func main() {
 					}
 					fmt.Printf("Name: %s", c.Data.ArtifactName)
 					return nil
+				},
+				Subcommands: []*cli.Command{
+					{
+						Name:    "version",
+						Aliases: []string{"v"},
+						Usage:   "Artifact version",
+						Action: func(*cli.Context) error {
+							store = domain.NewConfigStore(file)
+							c, err := store.ReadConfig()
+							if err != nil {
+								return err
+							}
+							action := actions.NewInfoAction(&c)
+							fmt.Printf(action.ArtifactVersion())
+							return nil
+						},
+					},
 				},
 			},
 			{
@@ -74,21 +92,16 @@ func main() {
 					if store.Exists() {
 						return errors.New("Project initialized yet!")
 					}
-					config := domain.Config{
-						Data: domain.DataConfig{
-							ArtifactName: ctx.String("name"),
-							Version: domain.VersionConfig{
-								Major: ctx.Int("major"),
-								Minor: ctx.Int("minor"),
-								Patch: ctx.Int("patch"),
-							},
-						},
+					action := actions.InitAction{
+						ArtifactName: ctx.String("name"),
+						Major:        ctx.Int("major"),
+						Minor:        ctx.Int("minor"),
+						Patch:        ctx.Int("patch"),
 					}
-					fmt.Printf("Name: %s\nMajor: %d\nMinor: %d\nPatch: %d\n",
-						config.Data.ArtifactName,
-						config.Data.Version.Major,
-						config.Data.Version.Minor,
-						config.Data.Version.Patch)
+					config, err := action.NewConfig()
+					if err != nil {
+						return err
+					}
 					return store.SaveConfig(config)
 				},
 			},

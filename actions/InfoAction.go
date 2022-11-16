@@ -1,6 +1,7 @@
 package actions
 
 import (
+	"fmt"
 	"semver/domain"
 )
 
@@ -14,4 +15,12 @@ func NewInfoAction(c *domain.Config) InfoAction {
 
 func (info *InfoAction) ArtifactName() string {
 	return info.c.Data.ArtifactName
+}
+
+func (info *InfoAction) ArtifactVersion() string {
+	version := fmt.Sprintf("%d.%d", info.c.Data.Version.Major, info.c.Data.Version.Minor)
+	if info.c.Data.Version.Patch != 0 {
+		version += fmt.Sprintf(".%d", info.c.Data.Version.Patch)
+	}
+	return version
 }

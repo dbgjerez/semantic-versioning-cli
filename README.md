@@ -2,13 +2,21 @@
 
 ## Help
 ```bash
-$ make
-help                           Show options and short description
-info                           Show the artifact info
-init                           Init the process
-version-major                  Upgrade the major version
-version-minor                  Upgrade the minor version
-version-patch                  Upgrade the patch number
+$ semver help  
+NAME:
+   semver - A new cli application
+
+USAGE:
+   semver [global options] command [command options] [arguments...]
+
+COMMANDS:
+   info, i  Show the artifact info
+   init     Init the versioning configuration file
+   help, h  Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --file value, -f value  Config file (default: ".semver.yaml")
+   --help, -h              show help (default: false)
 ```
 
 ## Init a project
