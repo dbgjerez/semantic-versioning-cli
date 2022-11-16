@@ -13,7 +13,7 @@ type ConfigStore struct {
 }
 
 func NewConfigStore(path string) ConfigStore {
-	return ConfigStore{Path: path}
+	return ConfigStore{Path: "./" + path}
 }
 
 func (store *ConfigStore) Exists() bool {
@@ -24,11 +24,10 @@ func (store *ConfigStore) Exists() bool {
 }
 
 func (store *ConfigStore) ReadConfig() (Config, error) {
-	f, err := ioutil.ReadFile("./" + store.Path)
+	f, err := ioutil.ReadFile(store.Path)
 	if err != nil {
 		return Config{}, errors.New(fmt.Sprintf("Error reading the file %s: %v", store.Path, err))
 	}
-
 	var config Config
 	err = json.Unmarshal(f, &config)
 	if err != nil {

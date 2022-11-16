@@ -32,7 +32,7 @@ func main() {
 				Aliases: []string{"i"},
 				Usage:   "Show the artifact info",
 				Action: func(*cli.Context) error {
-					store = domain.NewConfigStore(file)
+					store := domain.NewConfigStore(file)
 					c, err := store.ReadConfig()
 					if err != nil {
 						return err
@@ -56,6 +56,32 @@ func main() {
 							return nil
 						},
 					},
+				},
+			},
+			{
+				Name:  "release",
+				Usage: "Create a new release",
+				Flags: []cli.Flag{
+					&cli.IntFlag{
+						Name:    "force",
+						Aliases: []string{"f"},
+						Usage:   "force the version",
+						Value:   -1,
+					},
+				},
+				Action: func(ctx *cli.Context) error {
+					r := ctx.Int("force")
+					store := domain.NewConfigStore(file)
+					c, err := store.ReadConfig()
+					if err != nil {
+						return err
+					}
+					action := actions.NewReleaseAction(c)
+					config, err2 := action.CreateRelease(r)
+					if err2 != nil {
+						return err2
+					}
+					return store.SaveConfig(config)
 				},
 			},
 			{
