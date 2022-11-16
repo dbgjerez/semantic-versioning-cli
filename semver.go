@@ -85,6 +85,58 @@ func main() {
 				},
 			},
 			{
+				Name:  "feature",
+				Usage: "Create a new feature",
+				Flags: []cli.Flag{
+					&cli.IntFlag{
+						Name:    "force",
+						Aliases: []string{"f"},
+						Usage:   "force the version",
+						Value:   -1,
+					},
+				},
+				Action: func(ctx *cli.Context) error {
+					r := ctx.Int("force")
+					store := domain.NewConfigStore(file)
+					c, err := store.ReadConfig()
+					if err != nil {
+						return err
+					}
+					action := actions.NewReleaseAction(c)
+					config, err2 := action.CreateFeature(r)
+					if err2 != nil {
+						return err2
+					}
+					return store.SaveConfig(config)
+				},
+			},
+			{
+				Name:  "patch",
+				Usage: "Create a new patch",
+				Flags: []cli.Flag{
+					&cli.IntFlag{
+						Name:    "force",
+						Aliases: []string{"f"},
+						Usage:   "force the version",
+						Value:   -1,
+					},
+				},
+				Action: func(ctx *cli.Context) error {
+					r := ctx.Int("force")
+					store := domain.NewConfigStore(file)
+					c, err := store.ReadConfig()
+					if err != nil {
+						return err
+					}
+					action := actions.NewReleaseAction(c)
+					config, err2 := action.CreatePatch(r)
+					if err2 != nil {
+						return err2
+					}
+					return store.SaveConfig(config)
+				},
+			},
+			{
 				Name:  "init",
 				Usage: "Init the versioning configuration file",
 				Flags: []cli.Flag{

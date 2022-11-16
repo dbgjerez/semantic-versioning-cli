@@ -30,3 +30,34 @@ func (action *ReleaseAction) CreateRelease(majorVersion int) (domain.Config, err
 	action.Config.Data.Version.Patch = 0
 	return *action.Config, nil
 }
+
+func (action *ReleaseAction) CreateFeature(minorVersion int) (domain.Config, error) {
+	if minorVersion < -1 {
+		return *action.Config, errors.New(
+			fmt.Sprintf("Invalid version %d", minorVersion))
+	} else if minorVersion == -1 {
+		action.Config.Data.Version.Minor += 1
+	} else if minorVersion == action.Config.Data.Version.Minor {
+		return *action.Config, errors.New(
+			fmt.Sprintf("The actual minor version is already %d", minorVersion))
+	} else {
+		action.Config.Data.Version.Minor = minorVersion
+	}
+	action.Config.Data.Version.Patch = 0
+	return *action.Config, nil
+}
+
+func (action *ReleaseAction) CreatePatch(patchVersion int) (domain.Config, error) {
+	if patchVersion < -1 {
+		return *action.Config, errors.New(
+			fmt.Sprintf("Invalid version %d", patchVersion))
+	} else if patchVersion == -1 {
+		action.Config.Data.Version.Patch += 1
+	} else if patchVersion == action.Config.Data.Version.Patch {
+		return *action.Config, errors.New(
+			fmt.Sprintf("The actual patch version is already %d", patchVersion))
+	} else {
+		action.Config.Data.Version.Patch = patchVersion
+	}
+	return *action.Config, nil
+}
