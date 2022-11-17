@@ -28,7 +28,7 @@ GLOBAL OPTIONS:
 The following parameters are mandatory to initialize a new project.
 
 |Param|Alias|Default value|Description|
-|--|--|--|
+|--|--|--|--|
 |--name value|-n value||Artifact name|
 |--major value|-ma value|0|Default major version|
 |--minor value|-mi value|0|Default minor version|
@@ -53,10 +53,13 @@ Version: 1.0.1
 ### Major
 This number should increment when you make an incompatible API change.
 
+When you increment the major version, automatically the minor and path version changes to zero. 
+
 ```zsh
-$ make version-major
-$ make info | grep Version | cut -d ' ' -f2
-1.0.0
+$ semver m
+$ semver info
+Artifact name: semantic-versioning-cli
+Version: 2.0
 ```
 
 ### New patch
