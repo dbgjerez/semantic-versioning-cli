@@ -65,7 +65,9 @@ $ semver m
 2.0
 ```
 
-Besides, you can force the version using the ```-f``` option. For more information: ```semver major --help```
+Besides, you can force the version using the ```-f``` option. 
+
+For more information: ```semver major --help```
 
 ### Feature
 The minor version upgrades after a new feature or functionality. 
@@ -81,20 +83,22 @@ $ semver feature
 1.1                                                       
 ```
 
-Like the major version, the minor version can be forced using the ```-f``` flag. For more information: ```semver feature --help```
+Like the major version, the minor version can be forced using the ```-f``` flag. 
+
+For more information: ```semver feature --help```
 
 ### New patch
-The command ```version-patch``` increases the patch number:
+This number is used for bug-fix control and should be upgraded for each new release with bug fixes.
 
 ```zsh
-$ make version-patch
-$ make info | grep Version | cut -d ' ' -f2
-0.0.1
+$ semver info 
+Artifact name: semantic-versioning-cli
+Version: 1.0.1
+
+$ semver patch
+1.0.2
 ```
 
+You can force this part, in the same way, that previous numbers. 
 
-
-
-## Roadmap
- * Change to Golang cli 
- * Change data sctructure to .json file
+To amplify the information: ```semver patch --help```

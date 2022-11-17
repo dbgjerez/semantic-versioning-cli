@@ -141,6 +141,8 @@ func main() {
 					if err2 != nil {
 						return err2
 					}
+					infoAction := actions.NewInfoAction(&config)
+					fmt.Printf(infoAction.ArtifactVersion())
 					return store.SaveConfig(config)
 				},
 			},
