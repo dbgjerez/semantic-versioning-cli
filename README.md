@@ -1,4 +1,5 @@
 # semantic-versioning-cli
+```semver``` is an Open Source project used to manage application versions in a decoupled way.
 
 ## Help
 ```bash
@@ -10,44 +11,54 @@ USAGE:
    semver [global options] command [command options] [arguments...]
 
 COMMANDS:
-   info, i  Show the artifact info
-   init     Init the versioning configuration file
-   help, h  Shows a list of commands or help for one command
+   info, i     Show the artifact info
+   release, r  Create a new release
+   feature, f  Create a new feature
+   patch, p    Create a new patch
+   init        Init the versioning configuration file
+   help, h     Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
    --file value, -f value  Config file (default: ".semver.yaml")
    --help, -h              show help (default: false)
 ```
 
-## Init a project
+## Usage
+### Init a project
 The following parameters are mandatory to initialize a new project.
 
-|Param|Description|
-|--|--|
-|artifactName|Artifact name|
-|major|Default major version|
-|minor|Default minor version|
-|patch|Default patch version|
+|Param|Alias|Default value|Description|
+|--|--|--|
+|--name value|-n value||Artifact name|
+|--major value|-ma value|0|Default major version|
+|--minor value|-mi value|0|Default minor version|
+|--patch value|-p value|0|Default patch version|
 
 This example, initialize a project with the version ```0.0.0```
-```zsh
-make init \
-    artifactName=semantic-versioning-cli \
-    major=0 \
-    minor=0 \
-    patch=0 
+```bash
+semver init \
+    --name semantic-versioning-cli 
 ```
 
 ## Info
 To show the version of the project and the name:
 
 ```zsh
-$ make info
-Name: semantic-versioning-cli
-Version: 0.0.0
+$ semver info 
+Artifact name: semantic-versioning-cli
+Version: 1.0.1
 ```
 
 ## Versioning
+### Major
+This number should increment when you make an incompatible API change.
+
+```zsh
+$ make version-major
+$ make info | grep Version | cut -d ' ' -f2
+1.0.0
+```
+
 ### New patch
 The command ```version-patch``` increases the patch number:
 
@@ -67,14 +78,7 @@ $ make info | grep Version | cut -d ' ' -f2
 0.1.0
 ```
 
-### Upgrade major version
-When we have a big change in our architecture, we should increase the major number version:
 
-```zsh
-$ make version-major
-$ make info | grep Version | cut -d ' ' -f2
-1.0.0
-```
 
 ## Roadmap
  * Change to Golang cli 
