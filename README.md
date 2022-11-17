@@ -12,7 +12,7 @@ USAGE:
 
 COMMANDS:
    info, i     Show the artifact info
-   release, r  Create a new release
+   major, m    Create a new major version
    feature, f  Create a new feature
    patch, p    Create a new patch
    init        Init the versioning configuration file
@@ -21,6 +21,7 @@ COMMANDS:
 GLOBAL OPTIONS:
    --file value, -f value  Config file (default: ".semver.yaml")
    --help, -h              show help (default: false)
+
 ```
 
 ## Usage
