@@ -14,7 +14,7 @@ func NewReleaseAction(config domain.Config) ReleaseAction {
 	return ReleaseAction{Config: &config}
 }
 
-func (action *ReleaseAction) CreateRelease(majorVersion int) (domain.Config, error) {
+func (action *ReleaseAction) CreateMajor(majorVersion int) (domain.Config, error) {
 	if majorVersion < -1 {
 		return *action.Config, errors.New(
 			fmt.Sprintf("Invalid version %d", majorVersion))
