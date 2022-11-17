@@ -40,7 +40,7 @@ semver init \
     --name semantic-versioning-cli 
 ```
 
-## Info
+### Info
 To show the version of the project and the name:
 
 ```zsh
@@ -49,17 +49,19 @@ Artifact name: semantic-versioning-cli
 Version: 1.0.1
 ```
 
+In addition, you can use flags to retrieve only the desired information. For more information: ```semver info --help```
+
 ## Versioning
 ### Major
 This number should increment when you make an incompatible API change.
 
 When you increment the major version, automatically the minor and path version changes to zero. 
 
-```zsh
+```bash
+$ semver info v 
+1.0.1
 $ semver m
-$ semver info
-Artifact name: semantic-versioning-cli
-Version: 2.0
+2.0
 ```
 
 ### New patch
