@@ -2,8 +2,8 @@
   "data": {
     "artifactName": "semantic-versioning-cli",
     "version": {
-      "major": 2,
-      "minor": 0,
+      "major": 1,
+      "minor": 1,
       "patch": 0
     }
   }

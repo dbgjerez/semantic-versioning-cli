@@ -60,9 +60,28 @@ When you increment the major version, automatically the minor and path version c
 ```bash
 $ semver info v 
 1.0.1
+
 $ semver m
 2.0
 ```
+
+Besides, you can force the version using the ```-f``` option. For more information: ```semver major --help```
+
+### Feature
+The minor version upgrades after a new feature or functionality. 
+
+At the same time, the patch version will change to zero. 
+
+```bash
+$ semver info
+Artifact name: semantic-versioning-cli
+Version: 1.0.1
+
+$ semver feature
+1.1                                                       
+```
+
+Like the major version, the minor version can be forced using the ```-f``` flag. For more information: ```semver feature --help```
 
 ### New patch
 The command ```version-patch``` increases the patch number:
@@ -72,16 +91,7 @@ $ make version-patch
 $ make info | grep Version | cut -d ' ' -f2
 0.0.1
 ```
-### New minor version
-The command ```version-minor``` increases the minor version. It should be called when we have a new functionality finished. 
 
-At the same time, the patch version will change to zero. 
-
-```zsh
-$ make version-minor
-$ make info | grep Version | cut -d ' ' -f2
-0.1.0
-```
 
 
 
