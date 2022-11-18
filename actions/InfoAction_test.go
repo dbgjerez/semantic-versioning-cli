@@ -1,7 +1,6 @@
 package actions
 
 import (
-	"fmt"
 	"semver/domain"
 	"testing"
 )
@@ -12,14 +11,18 @@ var minor int = 1
 var patch int = 1
 
 func NewConfigMock() domain.Config {
+	return NewConfigMockVersion(domain.VersionConfig{
+		Major: major,
+		Minor: minor,
+		Patch: patch,
+	})
+}
+
+func NewConfigMockVersion(v domain.VersionConfig) domain.Config {
 	return domain.Config{
 		Data: domain.DataConfig{
 			ArtifactName: artifactName,
-			Version: domain.VersionConfig{
-				Major: major,
-				Minor: minor,
-				Patch: patch,
-			},
+			Version:      v,
 		},
 	}
 }
@@ -56,14 +59,39 @@ func TestArtifactName(t *testing.T) {
 	got := action.ArtifactName()
 
 	if want != got {
-		t.Error("Get artifactName fails")
+		t.Errorf("Expected artifactName %s and got %s", want, got)
 	}
 }
 
-func (info *InfoAction) TestArtifactVersion() string {
-	version := fmt.Sprintf("%d.%d", info.c.Data.Version.Major, info.c.Data.Version.Minor)
-	if info.c.Data.Version.Patch != 0 {
-		version += fmt.Sprintf(".%d", info.c.Data.Version.Patch)
+func TestArtifactVersion(t *testing.T) {
+	type VersionTest struct {
+		v    domain.VersionConfig
+		want string
 	}
-	return version
+	versions := []VersionTest{
+		{
+			v: domain.VersionConfig{
+				Major: 1,
+				Minor: 1,
+				Patch: 0,
+			},
+			want: "1.1",
+		},
+		{
+			v: domain.VersionConfig{
+				Major: 1,
+				Minor: 1,
+				Patch: 1,
+			},
+			want: "1.1.1",
+		},
+	}
+	for _, v := range versions {
+		c := NewConfigMockVersion(v.v)
+		action := NewInfoAction(&c)
+		got := action.ArtifactVersion()
+		if v.want != got {
+			t.Errorf("Expected version %s and got %s", v.want, got)
+		}
+	}
 }
