@@ -50,8 +50,14 @@ func TestCompleteInfo(t *testing.T) {
 	}
 }
 
-func (info *InfoAction) TestArtifactName() string {
-	return info.c.Data.ArtifactName
+func TestArtifactName(t *testing.T) {
+	action := NewInfoActionMock()
+	want := artifactName
+	got := action.ArtifactName()
+
+	if want != got {
+		t.Error("Get artifactName fails")
+	}
 }
 
 func (info *InfoAction) TestArtifactVersion() string {
