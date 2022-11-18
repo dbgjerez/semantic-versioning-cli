@@ -15,11 +15,12 @@ func NewReleaseAction(config domain.Config) ReleaseAction {
 }
 
 func (action *ReleaseAction) CreateMajor(majorVersion int) (domain.Config, error) {
-	if majorVersion < -1 {
-		return *action.Config, errors.New(
-			fmt.Sprintf("Invalid version %d", majorVersion))
-	} else if majorVersion == -1 {
+	if majorVersion == -1 {
 		action.Config.Data.Version.Major += 1
+	} else if majorVersion < action.Config.Data.Version.Major {
+		return *action.Config, errors.New(
+			fmt.Sprintf("You cannot down the version from %d to %d",
+				action.Config.Data.Version.Major, majorVersion))
 	} else if majorVersion == action.Config.Data.Version.Major {
 		return *action.Config, errors.New(
 			fmt.Sprintf("The actual major version is already %d", majorVersion))
