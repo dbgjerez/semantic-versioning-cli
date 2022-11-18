@@ -8,7 +8,7 @@ import (
 func TestNewReleaseAction(t *testing.T) {
 	c := NewConfigMock()
 	want := ReleaseAction{Config: &c}
-	got := NewReleaseAction(c)
+	got := NewReleaseAction(&c)
 
 	if want != got {
 		t.Errorf("Expected ReleaseAction is different")
@@ -58,7 +58,7 @@ func TestCreateMajor(t *testing.T) {
 	}
 	for _, v := range versions {
 		c := NewConfigMockVersion(v.v)
-		action := NewReleaseAction(c)
+		action := NewReleaseAction(&c)
 		infoAction := NewInfoAction(&c)
 		config, e := action.CreateMajor(v.param)
 		resInfoAction := NewInfoAction(&config)
@@ -79,10 +79,6 @@ func TestCreateMajor(t *testing.T) {
 				resInfoAction.ArtifactVersion())
 		}
 	}
-}
-
-func TestCreateMajorOK(t *testing.T) {
-
 }
 
 func TestCreateFeature(t *testing.T) {

@@ -10,8 +10,8 @@ type ReleaseAction struct {
 	Config *domain.Config
 }
 
-func NewReleaseAction(config domain.Config) ReleaseAction {
-	return ReleaseAction{Config: &config}
+func NewReleaseAction(config *domain.Config) ReleaseAction {
+	return ReleaseAction{Config: config}
 }
 
 func (action *ReleaseAction) CreateMajor(majorVersion int) (domain.Config, error) {

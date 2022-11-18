@@ -78,7 +78,7 @@ func main() {
 					if err != nil {
 						return err
 					}
-					action := actions.NewReleaseAction(c)
+					action := actions.NewReleaseAction(&c)
 					config, err2 := action.CreateMajor(r)
 					if err2 != nil {
 						return err2
@@ -107,7 +107,7 @@ func main() {
 					if err != nil {
 						return err
 					}
-					action := actions.NewReleaseAction(c)
+					action := actions.NewReleaseAction(&c)
 					config, err2 := action.CreateFeature(r)
 					if err2 != nil {
 						return err2
@@ -136,7 +136,7 @@ func main() {
 					if err != nil {
 						return err
 					}
-					action := actions.NewReleaseAction(c)
+					action := actions.NewReleaseAction(&c)
 					config, err2 := action.CreatePatch(r)
 					if err2 != nil {
 						return err2
