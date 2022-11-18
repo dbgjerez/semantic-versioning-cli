@@ -5,23 +5,22 @@ import (
 	"testing"
 )
 
-var artifactName string = "semver"
-var major int = 2
-var minor int = 1
-var patch int = 1
+const (
+	ArtifactName string = "semver"
+	Major        int    = 2
+	Minor        int    = 1
+	Patch        int    = 1
+)
 
 func NewConfigMock() domain.Config {
-	return NewConfigMockVersion(domain.VersionConfig{
-		Major: major,
-		Minor: minor,
-		Patch: patch,
-	})
+	version := NewVersionMock(Major, Minor, Patch)
+	return NewConfigMockVersion(version)
 }
 
 func NewConfigMockVersion(v domain.VersionConfig) domain.Config {
 	return domain.Config{
 		Data: domain.DataConfig{
-			ArtifactName: artifactName,
+			ArtifactName: ArtifactName,
 			Version:      v,
 		},
 	}
@@ -30,6 +29,14 @@ func NewConfigMockVersion(v domain.VersionConfig) domain.Config {
 func NewInfoActionMock() InfoAction {
 	c := NewConfigMock()
 	return InfoAction{c: &c}
+}
+
+func NewVersionMock(major int, minor int, patch int) domain.VersionConfig {
+	return domain.VersionConfig{
+		Major: major,
+		Minor: minor,
+		Patch: patch,
+	}
 }
 
 func TestNewInfoAction(t *testing.T) {
@@ -55,7 +62,7 @@ func TestCompleteInfo(t *testing.T) {
 
 func TestArtifactName(t *testing.T) {
 	action := NewInfoActionMock()
-	want := artifactName
+	want := ArtifactName
 	got := action.ArtifactName()
 
 	if want != got {
@@ -70,19 +77,11 @@ func TestArtifactVersion(t *testing.T) {
 	}
 	versions := []VersionTest{
 		{
-			v: domain.VersionConfig{
-				Major: 1,
-				Minor: 1,
-				Patch: 0,
-			},
+			v:    NewVersionMock(1, 1, 0),
 			want: "1.1",
 		},
 		{
-			v: domain.VersionConfig{
-				Major: 1,
-				Minor: 1,
-				Patch: 1,
-			},
+			v:    NewVersionMock(1, 1, 1),
 			want: "1.1.1",
 		},
 	}
