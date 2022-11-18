@@ -33,14 +33,15 @@ func (action *ReleaseAction) CreateMajor(majorVersion int) (domain.Config, error
 }
 
 func (action *ReleaseAction) CreateFeature(minorVersion int) (domain.Config, error) {
-	if minorVersion < -1 {
-		return *action.Config, errors.New(
-			fmt.Sprintf("Invalid version %d", minorVersion))
-	} else if minorVersion == -1 {
+	if minorVersion == -1 {
 		action.Config.Data.Version.Minor += 1
 	} else if minorVersion == action.Config.Data.Version.Minor {
 		return *action.Config, errors.New(
 			fmt.Sprintf("The actual minor version is already %d", minorVersion))
+	} else if minorVersion < action.Config.Data.Version.Minor {
+		return *action.Config, errors.New(
+			fmt.Sprintf("You cannot down the version %d for %d",
+				action.Config.Data.Version.Minor, minorVersion))
 	} else {
 		action.Config.Data.Version.Minor = minorVersion
 	}
