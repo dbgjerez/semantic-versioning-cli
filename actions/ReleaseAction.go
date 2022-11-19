@@ -50,11 +50,12 @@ func (action *ReleaseAction) CreateFeature(minorVersion int) (domain.Config, err
 }
 
 func (action *ReleaseAction) CreatePatch(patchVersion int) (domain.Config, error) {
-	if patchVersion < -1 {
-		return *action.Config, errors.New(
-			fmt.Sprintf("Invalid version %d", patchVersion))
-	} else if patchVersion == -1 {
+	if patchVersion == -1 {
 		action.Config.Data.Version.Patch += 1
+	} else if patchVersion < action.Config.Data.Version.Patch {
+		return *action.Config, errors.New(
+			fmt.Sprintf("The actual patch versoin (%d) is grather than (%d)",
+				action.Config.Data.Version.Patch, patchVersion))
 	} else if patchVersion == action.Config.Data.Version.Patch {
 		return *action.Config, errors.New(
 			fmt.Sprintf("The actual patch version is already %d", patchVersion))
