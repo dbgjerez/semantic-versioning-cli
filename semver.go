@@ -37,7 +37,8 @@ func main() {
 					if err != nil {
 						return err
 					}
-					fmt.Printf("Name: %s", c.Data.ArtifactName)
+					action := actions.NewInfoAction(&c)
+					fmt.Printf(action.CompleteInfo())
 					return nil
 				},
 				Subcommands: []*cli.Command{
@@ -59,8 +60,9 @@ func main() {
 				},
 			},
 			{
-				Name:  "release",
-				Usage: "Create a new release",
+				Name:    "major",
+				Aliases: []string{"m"},
+				Usage:   "Create a new major version",
 				Flags: []cli.Flag{
 					&cli.IntFlag{
 						Name:    "force",
@@ -76,17 +78,20 @@ func main() {
 					if err != nil {
 						return err
 					}
-					action := actions.NewReleaseAction(c)
-					config, err2 := action.CreateRelease(r)
+					action := actions.NewReleaseAction(&c)
+					config, err2 := action.CreateMajor(r)
 					if err2 != nil {
 						return err2
 					}
+					infoAction := actions.NewInfoAction(&config)
+					fmt.Printf(infoAction.ArtifactVersion())
 					return store.SaveConfig(config)
 				},
 			},
 			{
-				Name:  "feature",
-				Usage: "Create a new feature",
+				Name:    "feature",
+				Aliases: []string{"f"},
+				Usage:   "Create a new feature",
 				Flags: []cli.Flag{
 					&cli.IntFlag{
 						Name:    "force",
@@ -102,17 +107,20 @@ func main() {
 					if err != nil {
 						return err
 					}
-					action := actions.NewReleaseAction(c)
+					action := actions.NewReleaseAction(&c)
 					config, err2 := action.CreateFeature(r)
 					if err2 != nil {
 						return err2
 					}
+					infoAction := actions.NewInfoAction(&config)
+					fmt.Printf(infoAction.ArtifactVersion())
 					return store.SaveConfig(config)
 				},
 			},
 			{
-				Name:  "patch",
-				Usage: "Create a new patch",
+				Name:    "patch",
+				Aliases: []string{"p"},
+				Usage:   "Create a new patch",
 				Flags: []cli.Flag{
 					&cli.IntFlag{
 						Name:    "force",
@@ -128,11 +136,13 @@ func main() {
 					if err != nil {
 						return err
 					}
-					action := actions.NewReleaseAction(c)
+					action := actions.NewReleaseAction(&c)
 					config, err2 := action.CreatePatch(r)
 					if err2 != nil {
 						return err2
 					}
+					infoAction := actions.NewInfoAction(&config)
+					fmt.Printf(infoAction.ArtifactVersion())
 					return store.SaveConfig(config)
 				},
 			},

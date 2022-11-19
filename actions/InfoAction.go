@@ -13,6 +13,11 @@ func NewInfoAction(c *domain.Config) InfoAction {
 	return InfoAction{c: c}
 }
 
+func (info *InfoAction) CompleteInfo() string {
+	return fmt.Sprintf("Artifact name: %s\n"+
+		"Version: %s\n", info.ArtifactName(), info.ArtifactVersion())
+}
+
 func (info *InfoAction) ArtifactName() string {
 	return info.c.Data.ArtifactName
 }

@@ -1,4 +1,5 @@
 # semantic-versioning-cli
+```semver``` is an Open Source project used to manage application versions in a decoupled way.
 
 ## Help
 ```bash
@@ -10,72 +11,95 @@ USAGE:
    semver [global options] command [command options] [arguments...]
 
 COMMANDS:
-   info, i  Show the artifact info
-   init     Init the versioning configuration file
-   help, h  Shows a list of commands or help for one command
+   info, i     Show the artifact info
+   major, m    Create a new major version
+   feature, f  Create a new feature
+   patch, p    Create a new patch
+   init        Init the versioning configuration file
+   help, h     Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
    --file value, -f value  Config file (default: ".semver.yaml")
    --help, -h              show help (default: false)
+
 ```
 
-## Init a project
+## Usage
+### Init a project
 The following parameters are mandatory to initialize a new project.
 
-|Param|Description|
-|--|--|
-|artifactName|Artifact name|
-|major|Default major version|
-|minor|Default minor version|
-|patch|Default patch version|
+|Param|Alias|Default value|Description|
+|--|--|--|--|
+|--name value|-n value||Artifact name|
+|--major value|-ma value|0|Default major version|
+|--minor value|-mi value|0|Default minor version|
+|--patch value|-p value|0|Default patch version|
 
 This example, initialize a project with the version ```0.0.0```
-```zsh
-make init \
-    artifactName=semantic-versioning-cli \
-    major=0 \
-    minor=0 \
-    patch=0 
+```bash
+semver init \
+    --name semantic-versioning-cli 
 ```
 
-## Info
+### Info
 To show the version of the project and the name:
 
 ```zsh
-$ make info
-Name: semantic-versioning-cli
-Version: 0.0.0
+$ semver info 
+Artifact name: semantic-versioning-cli
+Version: 1.0.1
 ```
+
+In addition, you can use flags to retrieve only the desired information. For more information: ```semver info --help```
 
 ## Versioning
-### New patch
-The command ```version-patch``` increases the patch number:
+### Major
+This number should increment when you make an incompatible API change.
 
-```zsh
-$ make version-patch
-$ make info | grep Version | cut -d ' ' -f2
-0.0.1
+When you increment the major version, automatically the minor and path version changes to zero. 
+
+```bash
+$ semver info v 
+1.0.1
+
+$ semver m
+2.0
 ```
-### New minor version
-The command ```version-minor``` increases the minor version. It should be called when we have a new functionality finished. 
+
+Besides, you can force the version using the ```-f``` option. 
+
+For more information: ```semver major --help```
+
+### Feature
+The minor version upgrades after a new feature or functionality. 
 
 At the same time, the patch version will change to zero. 
 
-```zsh
-$ make version-minor
-$ make info | grep Version | cut -d ' ' -f2
-0.1.0
+```bash
+$ semver info
+Artifact name: semantic-versioning-cli
+Version: 1.0.1
+
+$ semver feature
+1.1                                                       
 ```
 
-### Upgrade major version
-When we have a big change in our architecture, we should increase the major number version:
+Like the major version, the minor version can be forced using the ```-f``` flag. 
+
+For more information: ```semver feature --help```
+
+### New patch
+This number is used for bug-fix control and should be upgraded for each new release with bug fixes.
 
 ```zsh
-$ make version-major
-$ make info | grep Version | cut -d ' ' -f2
-1.0.0
+$ semver info 
+Artifact name: semantic-versioning-cli
+Version: 1.0.1
+
+$ semver patch
+1.0.2
 ```
 
-## Roadmap
- * Change to Golang cli 
- * Change data sctructure to .json file
+You can force this part, in the same way, that previous numbers. 
+
+To amplify the information: ```semver patch --help```
