@@ -160,19 +160,25 @@ func main() {
 						Name:    "major",
 						Aliases: []string{"ma"},
 						Usage:   "Init major number",
-						Value:   0,
+						Value:   actions.INIT_MAJOR_VERSION,
 					},
 					&cli.IntFlag{
 						Name:    "minor",
 						Aliases: []string{"mi"},
 						Usage:   "Init minor number",
-						Value:   0,
+						Value:   actions.INIT_MINOR_VERSION,
 					},
 					&cli.IntFlag{
 						Name:    "patch",
 						Aliases: []string{"p"},
 						Usage:   "Init patch number",
-						Value:   0,
+						Value:   actions.INIT_PATCH_VERSION,
+					},
+					&cli.BoolFlag{
+						Name:    "snapshot",
+						Aliases: []string{"s"},
+						Usage:   "Enable Snapshots",
+						Value:   actions.INIT_SNAPSHOTS_ENABLED,
 					},
 				},
 				Action: func(ctx *cli.Context) error {
@@ -181,10 +187,11 @@ func main() {
 						return errors.New("Project initialized yet!")
 					}
 					action := actions.InitAction{
-						ArtifactName: ctx.String("name"),
-						Major:        ctx.Int("major"),
-						Minor:        ctx.Int("minor"),
-						Patch:        ctx.Int("patch"),
+						ArtifactName:    ctx.String("name"),
+						Major:           ctx.Int("major"),
+						Minor:           ctx.Int("minor"),
+						Patch:           ctx.Int("patch"),
+						SnapshotsEnable: ctx.Bool("snapshot"),
 					}
 					config, err := action.NewConfig()
 					if err != nil {
