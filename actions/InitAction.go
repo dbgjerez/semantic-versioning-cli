@@ -21,8 +21,8 @@ const (
 	INIT_SNAPSHOTS_KEY     = "SNAPSHOT"
 )
 
-func (init *InitAction) NewConfig() (domain.Config, error) {
-	return domain.Config{
+func (init *InitAction) NewConfig() (domain.Store, error) {
+	return domain.Store{
 		Config: domain.SemverConfig{
 			Versions: domain.SemverConfigVersions{
 				Snapshot: domain.SemverConfigSnapshots{
@@ -31,7 +31,7 @@ func (init *InitAction) NewConfig() (domain.Config, error) {
 				},
 			},
 		},
-		Data: domain.DataConfig{
+		Data: domain.DataStore{
 			ArtifactName: init.ArtifactName,
 			Version: domain.VersionConfig{
 				Major: init.Major,

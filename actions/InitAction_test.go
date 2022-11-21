@@ -6,8 +6,8 @@ import (
 )
 
 func TestNewConfig(t *testing.T) {
-	want := domain.Config{
-		Data: domain.DataConfig{
+	want := domain.Store{
+		Data: domain.DataStore{
 			ArtifactName: ArtifactName,
 			Version: domain.VersionConfig{
 				Major: Major,

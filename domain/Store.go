@@ -1,7 +1,7 @@
 package domain
 
-type Config struct {
-	Data   DataConfig   `json:"data"`
+type Store struct {
+	Data   DataStore    `json:"data"`
 	Config SemverConfig `json:"config"`
 }
 
@@ -18,7 +18,7 @@ type SemverConfigSnapshots struct {
 	Key     string `json:"key"`
 }
 
-type DataConfig struct {
+type DataStore struct {
 	ArtifactName string        `json:"artifactName"`
 	Version      VersionConfig `json:"version"`
 }

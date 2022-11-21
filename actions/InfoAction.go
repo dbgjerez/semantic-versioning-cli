@@ -6,10 +6,10 @@ import (
 )
 
 type InfoAction struct {
-	c *domain.Config
+	c *domain.Store
 }
 
-func NewInfoAction(c *domain.Config) InfoAction {
+func NewInfoAction(c *domain.Store) InfoAction {
 	return InfoAction{c: c}
 }
 
