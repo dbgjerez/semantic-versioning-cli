@@ -70,7 +70,7 @@ func TestNewInfoAction(t *testing.T) {
 func TestCompleteInfo(t *testing.T) {
 	action := NewInfoActionMock()
 	want := "Artifact name: semver\n" +
-		"Version: 2.1.1\n"
+		"Version: 2.1.1-SNAPSHOT\n"
 	got := action.CompleteInfo()
 
 	if want != got {
@@ -90,17 +90,30 @@ func TestArtifactName(t *testing.T) {
 
 func TestArtifactVersion(t *testing.T) {
 	type VersionTest struct {
-		v    domain.VersionConfig
-		want string
+		v        domain.VersionConfig
+		snapshot bool
+		want     string
 	}
 	versions := []VersionTest{
 		{
-			v:    NewVersionMock(1, 1, 0),
-			want: "1.1",
+			v:        NewVersionMock(1, 1, 0),
+			snapshot: false,
+			want:     "1.1",
 		},
 		{
-			v:    NewVersionMock(1, 1, 1),
-			want: "1.1.1",
+			v:        NewVersionMock(1, 1, 1),
+			snapshot: false,
+			want:     "1.1.1",
+		},
+		{
+			v:        NewVersionMock(1, 1, 0),
+			snapshot: true,
+			want:     "1.1-SNAPSHOT",
+		},
+		{
+			v:        NewVersionMock(1, 1, 1),
+			snapshot: true,
+			want:     "1.1.1-SNAPSHOT",
 		},
 	}
 	for _, v := range versions {
