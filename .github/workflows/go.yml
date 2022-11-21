@@ -30,6 +30,8 @@ jobs:
           go tool cover -func coverage.out
           
     - name: Quality
+      env:
+          TESTCOVERAGE_THRESHOLD: 80
       run: |
           echo "Quality Gate: checking test coverage is above threshold ..."
           echo "Threshold             : $TESTCOVERAGE_THRESHOLD %"
