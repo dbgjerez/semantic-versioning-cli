@@ -93,7 +93,7 @@ func TestCreateMajor(t *testing.T) {
 		},
 	}
 	for _, v := range versions {
-		c := NewConfigMockWithVersion(true, v.v)
+		c := NewConfigMockWithVersion(v.snapshot, v.v)
 		action := NewReleaseAction(c)
 		infoAction := NewInfoAction(c)
 		config, e := action.CreateMajor(v.param)
@@ -207,7 +207,7 @@ func TestCreateFeature(t *testing.T) {
 		},
 	}
 	for _, v := range versions {
-		c := NewConfigMockWithVersion(true, v.v)
+		c := NewConfigMockWithVersion(v.snapshot, v.v)
 		action := NewReleaseAction(c)
 		infoAction := NewInfoAction(c)
 		initV := infoAction.ArtifactVersion()
@@ -322,7 +322,7 @@ func TestCreatePatch(t *testing.T) {
 		},
 	}
 	for _, v := range versions {
-		c := NewConfigMockWithVersion(true, v.v)
+		c := NewConfigMockWithVersion(v.snapshot, v.v)
 		action := NewReleaseAction(c)
 		infoAction := NewInfoAction(c)
 		initV := infoAction.ArtifactVersion()

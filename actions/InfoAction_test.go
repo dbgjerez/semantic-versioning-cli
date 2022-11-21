@@ -117,7 +117,7 @@ func TestArtifactVersion(t *testing.T) {
 		},
 	}
 	for _, v := range versions {
-		c := NewConfigMockWithVersion(true, v.v)
+		c := NewConfigMockWithVersion(v.snapshot, v.v)
 		action := NewInfoAction(c)
 		got := action.ArtifactVersion()
 		if v.want != got {
