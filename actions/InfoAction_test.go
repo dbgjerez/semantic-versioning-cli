@@ -27,11 +27,9 @@ func NewConfigMock(enableSnapshots bool) *domain.Store {
 
 func NewConfigConfigMock(enableSnapshots bool) domain.SemverConfig {
 	return domain.SemverConfig{
-		Versions: domain.SemverConfigVersions{
-			Snapshot: domain.SemverConfigSnapshots{
-				Enabled: enableSnapshots,
-				Key:     SnapshotKey,
-			},
+		Snapshots: domain.SemverSubType{
+			Enabled: enableSnapshots,
+			Key:     SnapshotKey,
 		},
 	}
 }
