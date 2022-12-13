@@ -34,10 +34,15 @@ func TestNewConfig(t *testing.T) {
 	if err != nil {
 		t.Errorf("Don't expected fails!")
 	}
+	if want.Config.Snapshots.Key != got.Config.Snapshots.Key ||
+		want.Config.Snapshots.Key != INIT_SNAPSHOTS_KEY ||
+		got.Config.Snapshots.Key != INIT_SNAPSHOTS_KEY {
+		t.Errorf("Want ArtifactName %s and got %s", INIT_SNAPSHOTS_KEY, got.Config.Snapshots.Key)
+	}
 	if want.Data.ArtifactName != got.Data.ArtifactName ||
-		want.Data.ArtifactName != INIT_SNAPSHOTS_KEY ||
-		got.Data.ArtifactName != INIT_SNAPSHOTS_KEY {
-		t.Errorf("Want ArtifactName %s and got %s", INIT_SNAPSHOTS_KEY, got.Data.ArtifactName)
+		want.Data.ArtifactName != ArtifactName ||
+		got.Data.ArtifactName != ArtifactName {
+		t.Errorf("Want ArtifactName %s and got %s", ArtifactName, got.Data.ArtifactName)
 	}
 	if want.Data.Version.Major != got.Data.Version.Major ||
 		want.Data.Version.Major != Major ||
