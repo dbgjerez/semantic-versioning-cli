@@ -13,25 +13,23 @@ const (
 	SnapshotKey  string = "SNAPSHOT"
 )
 
-func NewConfigMockWithVersion(enableSnapshots bool, version domain.VersionConfig) *domain.Store {
+func NewConfigMockWithVersion(version domain.VersionConfig) *domain.Store {
 	return &domain.Store{
 		Data:   NewConfigMockVersion(version),
-		Config: NewConfigConfigMock(enableSnapshots),
+		Config: NewConfigConfigMock(version.Snapshot),
 	}
 }
 
 func NewConfigMock(enableSnapshots bool) *domain.Store {
-	version := NewVersionMock(Major, Minor, Patch)
-	return NewConfigMockWithVersion(enableSnapshots, version)
+	version := NewVersionMock(Major, Minor, Patch, enableSnapshots)
+	return NewConfigMockWithVersion(version)
 }
 
 func NewConfigConfigMock(enableSnapshots bool) domain.SemverConfig {
 	return domain.SemverConfig{
-		Versions: domain.SemverConfigVersions{
-			Snapshot: domain.SemverConfigSnapshots{
-				Enabled: enableSnapshots,
-				Key:     SnapshotKey,
-			},
+		Snapshots: domain.SemverSubType{
+			Enabled: enableSnapshots,
+			Key:     SnapshotKey,
 		},
 	}
 }
@@ -49,11 +47,12 @@ func NewInfoActionMock() InfoAction {
 	return InfoAction{c: c}
 }
 
-func NewVersionMock(major int, minor int, patch int) domain.VersionConfig {
+func NewVersionMock(major int, minor int, patch int, snapshot bool) domain.VersionConfig {
 	return domain.VersionConfig{
-		Major: major,
-		Minor: minor,
-		Patch: patch,
+		Major:    major,
+		Minor:    minor,
+		Patch:    patch,
+		Snapshot: snapshot,
 	}
 }
 
@@ -90,34 +89,29 @@ func TestArtifactName(t *testing.T) {
 
 func TestArtifactVersion(t *testing.T) {
 	type VersionTest struct {
-		v        domain.VersionConfig
-		snapshot bool
-		want     string
+		v    domain.VersionConfig
+		want string
 	}
 	versions := []VersionTest{
 		{
-			v:        NewVersionMock(1, 1, 0),
-			snapshot: false,
-			want:     "1.1",
+			v:    NewVersionMock(1, 1, 0, false),
+			want: "1.1",
 		},
 		{
-			v:        NewVersionMock(1, 1, 1),
-			snapshot: false,
-			want:     "1.1.1",
+			v:    NewVersionMock(1, 1, 1, false),
+			want: "1.1.1",
 		},
 		{
-			v:        NewVersionMock(1, 1, 0),
-			snapshot: true,
-			want:     "1.1-SNAPSHOT",
+			v:    NewVersionMock(1, 1, 0, true),
+			want: "1.1-SNAPSHOT",
 		},
 		{
-			v:        NewVersionMock(1, 1, 1),
-			snapshot: true,
-			want:     "1.1.1-SNAPSHOT",
+			v:    NewVersionMock(1, 1, 1, true),
+			want: "1.1.1-SNAPSHOT",
 		},
 	}
 	for _, v := range versions {
-		c := NewConfigMockWithVersion(v.snapshot, v.v)
+		c := NewConfigMockWithVersion(v.v)
 		action := NewInfoAction(c)
 		got := action.ArtifactVersion()
 		if v.want != got {

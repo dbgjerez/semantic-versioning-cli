@@ -14,21 +14,22 @@ type InitAction struct {
 }
 
 const (
-	INIT_MAJOR_VERSION     = 0
-	INIT_MINOR_VERSION     = 0
-	INIT_PATCH_VERSION     = 0
-	INIT_SNAPSHOTS_ENABLED = true
-	INIT_SNAPSHOTS_KEY     = "SNAPSHOT"
+	INIT_MAJOR_VERSION     int    = 0
+	INIT_MINOR_VERSION     int    = 0
+	INIT_PATCH_VERSION     int    = 0
+	INIT_SNAPSHOTS_ENABLED bool   = true
+	INIT_SNAPSHOTS_KEY     string = "SNAPSHOT"
 )
 
 func (init *InitAction) NewConfig() (domain.Store, error) {
+	if init.SnapshotsKey == "" {
+		init.SnapshotsKey = INIT_SNAPSHOTS_KEY
+	}
 	return domain.Store{
 		Config: domain.SemverConfig{
-			Versions: domain.SemverConfigVersions{
-				Snapshot: domain.SemverConfigSnapshots{
-					Enabled: init.SnapshotsEnable,
-					Key:     init.SnapshotsKey,
-				},
+			Snapshots: domain.SemverSubType{
+				Key:     init.SnapshotsKey,
+				Enabled: init.SnapshotsEnable,
 			},
 		},
 		Data: domain.DataStore{

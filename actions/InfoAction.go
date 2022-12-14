@@ -27,8 +27,8 @@ func (info *InfoAction) ArtifactVersion() string {
 	if info.c.Data.Version.Patch != 0 {
 		version += fmt.Sprintf(".%d", info.c.Data.Version.Patch)
 	}
-	if info.c.Config.Versions.Snapshot.Enabled {
-		version += fmt.Sprintf("-%s", info.c.Config.Versions.Snapshot.Key)
+	if info.c.Config.Snapshots.Enabled && info.c.Data.Version.Snapshot {
+		version += fmt.Sprintf("-%s", info.c.Config.Snapshots.Key)
 	}
 	return version
 }
