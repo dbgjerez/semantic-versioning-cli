@@ -6,7 +6,7 @@
       "minor": 2,
       "patch": 0,
       "rc": 0,
-      "snapshot": false
+      "snapshot": true
     }
   },
   "config": {
