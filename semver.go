@@ -11,11 +11,24 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+var version string
+
 func main() {
 	var file string
 	var store domain.ConfigStore
 
+	cli.VersionPrinter = func(cCtx *cli.Context) {
+		fmt.Printf("%s\n", cCtx.App.Version)
+	}
+
+	cli.VersionFlag = &cli.BoolFlag{
+		Name:    "version",
+		Aliases: []string{"v"},
+		Usage:   "print only the version",
+	}
+
 	app := &cli.App{
+		Version: version,
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:        "file",
