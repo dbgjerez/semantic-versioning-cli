@@ -147,6 +147,45 @@ func main() {
 				},
 			},
 			{
+				Name:    "snapshot",
+				Aliases: []string{"sn"},
+				Usage:   "Modify the snapshot flag",
+				Flags: []cli.Flag{
+					&cli.BoolFlag{
+						Name:    "force",
+						Aliases: []string{"f"},
+						Usage:   "force the snapshot value",
+					},
+				},
+				Action: func(ctx *cli.Context) error {
+					force := false
+					if ctx.Count("force") > 0 { // if > 0, user set value
+						force = true
+					}
+					forcedValue := ctx.Bool("force")
+					store := domain.NewConfigStore(file)
+					config, err := store.ReadConfig()
+					if err != nil {
+						return err
+					}
+
+					action := actions.SnapshotAction{
+						C:           &config,
+						Force:       force,
+						ForcedValue: forcedValue,
+					}
+
+					err = action.ChangeStatus()
+					if err != nil {
+						return err
+					}
+
+					infoAction := actions.NewInfoAction(&config)
+					fmt.Printf(infoAction.ArtifactVersion())
+					return store.SaveConfig(config)
+				},
+			},
+			{
 				Name:  "init",
 				Usage: "Init the versioning configuration file",
 				Flags: []cli.Flag{

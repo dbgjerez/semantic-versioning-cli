@@ -11,6 +11,7 @@ type Tests struct {
 	name          string
 	store         domain.Store
 	expectedError error
+	force         bool
 }
 
 func TestSnapshotAction(t *testing.T) {
@@ -58,11 +59,28 @@ func TestSnapshotAction(t *testing.T) {
 			},
 			expectedError: nil,
 		},
+		{
+			name: "snapshots-force-true",
+			store: domain.Store{
+				Config: domain.SemverConfig{
+					Snapshots: domain.SemverSubType{
+						Enabled: true,
+					},
+				},
+				Data: domain.DataStore{
+					Version: domain.VersionConfig{
+						Snapshot: false,
+					},
+				},
+			},
+			force:         true,
+			expectedError: nil,
+		},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			action := SnapshotAction{c: &test.store}
+			action := SnapshotAction{C: &test.store, Force: test.force, ForcedValue: true}
 			previous := test.store.Data.Version.Snapshot
 			err := action.ChangeStatus()
 
@@ -71,9 +89,9 @@ func TestSnapshotAction(t *testing.T) {
 					t.Errorf("Expected error FAILED: expected [%v] got [%v]", test.expectedError, err)
 				}
 			} else {
-				if reflect.DeepEqual(action.c.Data.Version.Snapshot, previous) {
+				if reflect.DeepEqual(action.C.Data.Version.Snapshot, previous) {
 					t.Errorf("Expected valuer FAILED: expected [%t] got [%t]",
-						action.c.Data.Version.Snapshot, previous)
+						action.C.Data.Version.Snapshot, previous)
 				}
 			}
 		})

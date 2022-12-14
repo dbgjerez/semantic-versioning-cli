@@ -8,25 +8,31 @@ import (
 var ErrSnapshotsNotEnable = errors.New("Snapshots are not enabled")
 
 type SnapshotAction struct {
-	c *domain.Store
+	C           *domain.Store
+	Force       bool // Indicates if the value is forced
+	ForcedValue bool // Indicates the value
 }
 
 func (action *SnapshotAction) IsSnapshot() bool {
-	if action.c.Config.Snapshots.Enabled &&
-		action.c.Data.Version.Snapshot {
+	if action.C.Config.Snapshots.Enabled &&
+		action.C.Data.Version.Snapshot {
 		return true
 	}
 	return false
 }
 
 func (action *SnapshotAction) ChangeStatus() error {
-	if !action.c.Config.Snapshots.Enabled {
+	if !action.C.Config.Snapshots.Enabled {
 		return ErrSnapshotsNotEnable
 	} else {
-		if action.IsSnapshot() {
-			action.c.Data.Version.Snapshot = false
+		if action.Force {
+			action.C.Data.Version.Snapshot = action.ForcedValue
 		} else {
-			action.c.Data.Version.Snapshot = true
+			if action.IsSnapshot() {
+				action.C.Data.Version.Snapshot = false
+			} else {
+				action.C.Data.Version.Snapshot = true
+			}
 		}
 	}
 	return nil
