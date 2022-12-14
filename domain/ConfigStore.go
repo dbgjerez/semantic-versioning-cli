@@ -23,21 +23,21 @@ func (store *ConfigStore) Exists() bool {
 	return true
 }
 
-func (store *ConfigStore) ReadConfig() (Config, error) {
+func (store *ConfigStore) ReadConfig() (Store, error) {
 	f, err := ioutil.ReadFile(store.Path)
 	if err != nil {
-		return Config{}, errors.New(fmt.Sprintf("Error reading the file %s: %v", store.Path, err))
+		return Store{}, errors.New(fmt.Sprintf("Error reading the file %s: %v", store.Path, err))
 	}
-	var config Config
+	var config Store
 	err = json.Unmarshal(f, &config)
 	if err != nil {
-		return Config{}, errors.New(fmt.Sprintf("Error unmarshal the %s content: %v", store.Path, err))
+		return Store{}, errors.New(fmt.Sprintf("Error unmarshal the %s content: %v", store.Path, err))
 	}
 	return config, nil
 }
 
-func (store *ConfigStore) SaveConfig(config Config) error {
-	file, _ := json.MarshalIndent(config, "", "  ")
+func (store *ConfigStore) SaveConfig(s Store) error {
+	file, _ := json.MarshalIndent(s, "", "  ")
 	err := ioutil.WriteFile(store.Path, file, 0644)
 	if err != nil {
 		return err

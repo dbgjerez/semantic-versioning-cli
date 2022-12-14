@@ -3,8 +3,27 @@
     "artifactName": "semantic-versioning-cli",
     "version": {
       "major": 1,
-      "minor": 0,
-      "patch": 1
+      "minor": 1,
+      "patch": 0,
+      "rc": 0,
+      "snapshot": true
+    }
+  },
+  "config": {
+    "snapshots": {
+      "enabled": true,
+      "key": "SNAPSHOT"
+    },
+    "release-candidates": {
+      "enabled": false,
+      "key": ""
+    },
+    "gitflow": {
+      "enabled": false,
+      "branches": {
+        "snapshots": null,
+        "release-candidates": null
+      }
     }
   }
 }
