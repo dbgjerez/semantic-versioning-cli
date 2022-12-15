@@ -2,6 +2,7 @@ package domain
 
 import (
 	"encoding/json"
+	"reflect"
 	"testing"
 )
 
@@ -54,5 +55,47 @@ func TestCompleteModel(t *testing.T) {
 		!config.Config.Snapshots.Enabled ||
 		!config.Config.GitFlow.Enabled {
 		t.Errorf("Expected a correct JSON config load")
+	}
+}
+
+type Test struct {
+	name           string
+	config         Store
+	expectedResult bool
+}
+
+func TestIsSnapshot(t *testing.T) {
+	tests := []Test{
+		{
+			name: "snapshot-enabled",
+			config: Store{
+				Config: SemverConfig{
+					Snapshots: SemverSubType{
+						Enabled: true,
+					},
+				},
+			},
+			expectedResult: true,
+		},
+		{
+			name: "no-snapshot-enabled",
+			config: Store{
+				Config: SemverConfig{
+					Snapshots: SemverSubType{
+						Enabled: false,
+					},
+				},
+			},
+			expectedResult: false,
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			if !reflect.DeepEqual(test.config.IsSnapshotEnabled(), test.expectedResult) {
+				t.Errorf("Expected %t and got %t",
+					test.config.IsSnapshotEnabled(),
+					test.expectedResult)
+			}
+		})
 	}
 }

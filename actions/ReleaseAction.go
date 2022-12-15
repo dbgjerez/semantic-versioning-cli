@@ -29,6 +29,9 @@ func (action *ReleaseAction) CreateMajor(majorVersion int) (domain.Store, error)
 	}
 	action.Store.Data.Version.Minor = 0
 	action.Store.Data.Version.Patch = 0
+	if action.Store.IsSnapshotEnabled() {
+		action.Store.Data.Version.Snapshot = true
+	}
 	return *action.Store, nil
 }
 
@@ -44,6 +47,9 @@ func (action *ReleaseAction) CreateFeature(minorVersion int) (domain.Store, erro
 				action.Store.Data.Version.Minor, minorVersion))
 	} else {
 		action.Store.Data.Version.Minor = minorVersion
+	}
+	if action.Store.IsSnapshotEnabled() {
+		action.Store.Data.Version.Snapshot = true
 	}
 	action.Store.Data.Version.Patch = 0
 	return *action.Store, nil
@@ -61,6 +67,9 @@ func (action *ReleaseAction) CreatePatch(patchVersion int) (domain.Store, error)
 			fmt.Sprintf("The actual patch version is already %d", patchVersion))
 	} else {
 		action.Store.Data.Version.Patch = patchVersion
+	}
+	if action.Store.IsSnapshotEnabled() {
+		action.Store.Data.Version.Snapshot = true
 	}
 	return *action.Store, nil
 }
