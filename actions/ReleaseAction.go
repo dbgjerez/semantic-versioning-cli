@@ -48,6 +48,9 @@ func (action *ReleaseAction) CreateFeature(minorVersion int) (domain.Store, erro
 	} else {
 		action.Store.Data.Version.Minor = minorVersion
 	}
+	if action.Store.IsSnapshotEnabled() {
+		action.Store.Data.Version.Snapshot = true
+	}
 	action.Store.Data.Version.Patch = 0
 	return *action.Store, nil
 }
