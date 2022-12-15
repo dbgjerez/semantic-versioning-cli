@@ -38,3 +38,7 @@ type VersionConfig struct {
 	RC       int  `json:"rc"`
 	Snapshot bool `json:"snapshot"`
 }
+
+func (store Store) IsSnapshotEnabled() bool {
+	return store.Config.Snapshots.Enabled
+}
