@@ -68,5 +68,8 @@ func (action *ReleaseAction) CreatePatch(patchVersion int) (domain.Store, error)
 	} else {
 		action.Store.Data.Version.Patch = patchVersion
 	}
+	if action.Store.IsSnapshotEnabled() {
+		action.Store.Data.Version.Snapshot = true
+	}
 	return *action.Store, nil
 }
