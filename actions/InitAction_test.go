@@ -22,11 +22,21 @@ func TestNewConfig(t *testing.T) {
 			SnapshotsEnable: INIT_SNAPSHOTS_ENABLED,
 			SnapshotsKey:    "",
 		},
+		{
+			ArtifactName: ArtifactName,
+			Major:        Major,
+			Minor:        Minor,
+			Patch:        Patch,
+			SnapshotsKey: INIT_SNAPSHOTS_KEY,
+		},
 	}
 	for _, uc := range useCases {
 		got, err := uc.NewConfig()
 		if err != nil {
 			t.Errorf("Don't expected fails!")
+		}
+		if uc.SnapshotsEnable != got.Config.Snapshots.Enabled {
+			t.Errorf("Want SnapshotsEnable %t and got %t", uc.SnapshotsEnable, got.Config.Snapshots.Enabled)
 		}
 		if uc.SnapshotsKey != got.Config.Snapshots.Key {
 			t.Errorf("Want SnapshotsKey %s and got %s", uc.SnapshotsKey, got.Config.Snapshots.Key)
