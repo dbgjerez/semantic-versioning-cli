@@ -1,6 +1,6 @@
 {
   "data": {
-    "artifactName": "semantic-versioning-cli",
+    "artifactName": "semver",
     "version": {
       "major": 1,
       "minor": 1,

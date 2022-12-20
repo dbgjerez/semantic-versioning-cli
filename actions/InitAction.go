@@ -25,7 +25,7 @@ func (init *InitAction) NewConfig() (domain.Store, error) {
 	if init.SnapshotsKey == "" {
 		init.SnapshotsKey = INIT_SNAPSHOTS_KEY
 	}
-	return domain.Store{
+	store := domain.Store{
 		Config: domain.SemverConfig{
 			Snapshots: domain.SemverSubType{
 				Key:     init.SnapshotsKey,
@@ -40,5 +40,9 @@ func (init *InitAction) NewConfig() (domain.Store, error) {
 				Patch: init.Patch,
 			},
 		},
-	}, nil
+	}
+	if store.IsSnapshotEnabled() {
+		store.Data.Version.Snapshot = true
+	}
+	return store, nil
 }
