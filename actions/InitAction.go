@@ -14,11 +14,10 @@ type InitAction struct {
 }
 
 const (
-	INIT_MAJOR_VERSION     int    = 0
-	INIT_MINOR_VERSION     int    = 0
-	INIT_PATCH_VERSION     int    = 0
-	INIT_SNAPSHOTS_ENABLED bool   = true
-	INIT_SNAPSHOTS_KEY     string = "SNAPSHOT"
+	INIT_MAJOR_VERSION int    = 0
+	INIT_MINOR_VERSION int    = 0
+	INIT_PATCH_VERSION int    = 0
+	INIT_SNAPSHOTS_KEY string = "SNAPSHOT"
 )
 
 func (init *InitAction) NewConfig() (domain.Store, error) {
@@ -35,9 +34,10 @@ func (init *InitAction) NewConfig() (domain.Store, error) {
 		Data: domain.DataStore{
 			ArtifactName: init.ArtifactName,
 			Version: domain.VersionConfig{
-				Major: init.Major,
-				Minor: init.Minor,
-				Patch: init.Patch,
+				Major:    init.Major,
+				Minor:    init.Minor,
+				Patch:    init.Patch,
+				Snapshot: init.SnapshotsEnable,
 			},
 		},
 	}

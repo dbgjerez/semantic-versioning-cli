@@ -34,6 +34,7 @@ The following parameters are mandatory to initialize a new project.
 |--major value|-ma value|0|Default major version|
 |--minor value|-mi value|0|Default minor version|
 |--patch value|-p value|0|Default patch version|
+|--snapshot|-s|false|Enable snapshots versions|
 
 This example, initialize a project with the version ```0.0.0```
 ```bash

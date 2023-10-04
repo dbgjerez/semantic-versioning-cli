@@ -11,7 +11,7 @@ func TestNewConfig(t *testing.T) {
 			Major:           Major,
 			Minor:           Minor,
 			Patch:           Patch,
-			SnapshotsEnable: INIT_SNAPSHOTS_ENABLED,
+			SnapshotsEnable: true,
 			SnapshotsKey:    INIT_SNAPSHOTS_KEY,
 		},
 		{
@@ -19,7 +19,7 @@ func TestNewConfig(t *testing.T) {
 			Major:           Major,
 			Minor:           Minor,
 			Patch:           Patch,
-			SnapshotsEnable: INIT_SNAPSHOTS_ENABLED,
+			SnapshotsEnable: true,
 			SnapshotsKey:    "",
 		},
 		{

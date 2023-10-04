@@ -230,7 +230,6 @@ func main() {
 						Name:    "snapshot",
 						Aliases: []string{"s"},
 						Usage:   "Enable Snapshots",
-						Value:   actions.INIT_SNAPSHOTS_ENABLED,
 					},
 				},
 				Action: func(ctx *cli.Context) error {
