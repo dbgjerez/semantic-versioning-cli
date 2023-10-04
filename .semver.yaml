@@ -4,14 +4,14 @@
     "version": {
       "major": 1,
       "minor": 1,
-      "patch": 2,
+      "patch": 3,
       "rc": 0,
       "snapshot": false
     }
   },
   "config": {
     "snapshots": {
-      "enabled": true,
+      "enabled": false,
       "key": "SNAPSHOT"
     },
     "release-candidates": {
