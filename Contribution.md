@@ -8,3 +8,8 @@ If you want to contribute to this project, start with an existing issue or propo
 VERSION=$(semver info v)
 go build -ldflags "-X main.version=$VERSION" .   
 ```
+
+# Promote
+
+## Create a tag
+
