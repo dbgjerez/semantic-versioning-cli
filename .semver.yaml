@@ -3,8 +3,8 @@
     "artifactName": "semver",
     "version": {
       "major": 1,
-      "minor": 1,
-      "patch": 3,
+      "minor": 2,
+      "patch": 0,
       "rc": 0,
       "snapshot": false
     }
