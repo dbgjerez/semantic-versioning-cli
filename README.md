@@ -1,6 +1,14 @@
 # semantic-versioning-cli
 ```semver``` is an Open Source project used to manage application versions in a decoupled way.
 
+## Installation
+```bash
+wget https://github.com/dbgjerez/semantic-versioning-cli/releases/download/1.2/semver -O semver
+chmod +x semver
+sudo mv semver /usr/local/bin/
+semver --version
+```
+
 ## Help
 ```bash
 $ semver help  
